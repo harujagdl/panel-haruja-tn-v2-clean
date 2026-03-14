@@ -1,269 +1,280 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Panel Haruja TN v2 | Home</title>
-    <style>
-      :root {
-        --bg: #f3f5fb;
-        --bg-gradient-1: #ffffff;
-        --bg-gradient-2: #eef2ff;
-        --text: #1f2937;
-        --muted: #6b7280;
-        --card: #ffffff;
-        --border: #e5e7eb;
-        --primary: #1f6feb;
-        --primary-dark: #1b5dc6;
-        --shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
-        --radius: 18px;
-      }
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-      * {
-        box-sizing: border-box;
-      }
+<title>Panel HarujaGdl</title>
 
-      body {
-        margin: 0;
-        font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
-        color: var(--text);
-        background: radial-gradient(circle at top left, var(--bg-gradient-1), var(--bg-gradient-2));
-        min-height: 100vh;
-      }
+<style>
 
-      .container {
-        width: min(1120px, calc(100% - 2rem));
-        margin: 0 auto;
-        padding: 2.5rem 0 3rem;
-      }
+:root{
+--bg:#f3f5fb;
+--card:#ffffff;
+--border:#e5e7eb;
+--text:#1f2937;
+--muted:#6b7280;
+--primary:#1f6feb;
+--primary-dark:#1b5dc6;
+--radius:18px;
+--shadow:0 12px 28px rgba(15,23,42,.08);
+}
 
-      .hero {
-        margin-bottom: 1.75rem;
-      }
+*{
+box-sizing:border-box;
+}
 
-      .hero h1 {
-        margin: 0;
-        font-size: clamp(1.6rem, 2.2vw, 2.2rem);
-        line-height: 1.2;
-      }
+body{
+margin:0;
+font-family:Inter,Segoe UI,system-ui;
+background:radial-gradient(circle at top left,#ffffff,#eef2ff);
+color:var(--text);
+min-height:100vh;
+}
 
-      .hero p {
-        margin: 0.65rem 0 0;
-        color: var(--muted);
-        font-size: 0.98rem;
-        max-width: 760px;
-      }
+.container{
+width:min(1120px,calc(100% - 2rem));
+margin:auto;
+padding:2.5rem 0 3rem;
+}
 
-      .dashboard-grid {
-        display: grid;
-        gap: 1rem;
-        grid-template-columns: repeat(12, minmax(0, 1fr));
-      }
+.hero h1{
+margin:0;
+font-size:2rem;
+}
 
-      .card {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        padding: 1.2rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.8rem;
-      }
+.hero p{
+margin-top:.6rem;
+color:var(--muted);
+font-size:.95rem;
+max-width:720px;
+}
 
-      .card h2 {
-        margin: 0;
-        font-size: 1.05rem;
-      }
+.dashboard-grid{
+margin-top:1.5rem;
+display:grid;
+gap:1rem;
+grid-template-columns:repeat(12,1fr);
+}
 
-      .card p {
-        margin: 0;
-        color: var(--muted);
-        font-size: 0.93rem;
-        line-height: 1.5;
-      }
+.card{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:var(--radius);
+padding:1.2rem;
+box-shadow:var(--shadow);
+display:flex;
+flex-direction:column;
+gap:.7rem;
+}
 
-      .span-4 {
-        grid-column: span 4;
-      }
+.card h2{
+margin:0;
+font-size:1rem;
+}
 
-      .span-6 {
-        grid-column: span 6;
-      }
+.card p{
+margin:0;
+color:var(--muted);
+font-size:.9rem;
+}
 
-      .metrics {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 0.65rem;
-      }
+.span4{
+grid-column:span 4;
+}
 
-      .metric {
-        border: 1px dashed #d6ddf3;
-        border-radius: 12px;
-        padding: 0.75rem;
-        background: #f9fbff;
-      }
+.span6{
+grid-column:span 6;
+}
 
-      .metric small {
-        display: block;
-        color: var(--muted);
-        margin-bottom: 0.35rem;
-        font-size: 0.75rem;
-      }
+.metrics{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:.6rem;
+}
 
-      .metric strong {
-        font-size: 1rem;
-      }
+.metric{
+border:1px dashed #d6ddf3;
+border-radius:12px;
+padding:.6rem;
+background:#f9fbff;
+}
 
-      .actions {
-        margin-top: auto;
-        display: flex;
-        gap: 0.55rem;
-        flex-wrap: wrap;
-      }
+.metric small{
+display:block;
+font-size:.75rem;
+color:var(--muted);
+margin-bottom:.25rem;
+}
 
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 2.35rem;
-        padding: 0.55rem 0.95rem;
-        border-radius: 999px;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 0.89rem;
-      }
+.actions{
+margin-top:auto;
+}
 
-      .btn-primary {
-        background: var(--primary);
-        color: #ffffff;
-      }
+.btn{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+padding:.55rem .9rem;
+border-radius:999px;
+background:var(--primary);
+color:#fff;
+font-weight:600;
+text-decoration:none;
+font-size:.85rem;
+}
 
-      .btn-primary:hover {
-        background: var(--primary-dark);
-      }
+.btn:hover{
+background:var(--primary-dark);
+}
 
-      .btn-soft {
-        background: #e9efff;
-        color: #1e3a8a;
-      }
+@media(max-width:900px){
 
-      @media (max-width: 980px) {
-        .span-4,
-        .span-6 {
-          grid-column: span 6;
-        }
-      }
+.span4{
+grid-column:span 6;
+}
 
-      @media (max-width: 760px) {
-        .container {
-          width: min(1120px, calc(100% - 1.4rem));
-          padding-top: 1.4rem;
-        }
+.span6{
+grid-column:span 12;
+}
 
-        .span-4,
-        .span-6 {
-          grid-column: span 12;
-        }
+}
 
-        .metrics {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <main class="container">
-      <header class="hero">
-        <h1>Panel de Herramientas HarujaGdl</h1>
-        <p>
-          Accede rápidamente a los módulos principales del ecosistema HarujaGdl.
-          Esta versión se mantiene totalmente estática para asegurar estabilidad
-          en Vercel durante la fase de reconstrucción.
-        </p>
-      </header>
+@media(max-width:650px){
 
-      <section class="dashboard-grid">
-        <article class="card span-4">
-          <h2>Registro de nuevas prendas</h2>
-          <p>
-            Alta rápida para capturar nuevas piezas y dejar lista la información
-            base para futuras integraciones.
-          </p>
-          <div class="actions">
-            <a class="btn btn-primary" href="/ticket/index.html">Abrir</a>
-          </div>
-        </article>
+.span4{
+grid-column:span 12;
+}
 
-        <article class="card span-4">
-          <h2>Base de datos códigos HarujaGdl</h2>
-          <p>
-            Consulta y organización de históricos y referencias para control
-            interno de códigos.
-          </p>
-          <div class="actions">
-            <a class="btn btn-primary" href="/apartados-historial/index.html">Abrir</a>
-          </div>
-        </article>
+}
 
-        <article class="card span-4">
-          <h2>Registrar apartado</h2>
-          <p>
-            Gestión de apartados activos y seguimiento simple de movimientos del
-            día.
-          </p>
-          <div class="actions">
-            <a class="btn btn-primary" href="/apartados/index.html">Abrir</a>
-          </div>
-        </article>
+</style>
+</head>
 
-        <article class="card span-6">
-          <h2>Ventas &amp; Comisiones</h2>
-          <p>
-            Vista general temporal con métricas en modo placeholder, sin carga
-            dinámica ni conexiones externas.
-          </p>
-          <div class="metrics">
-            <div class="metric">
-              <small>Total del mes</small>
-              <strong>—</strong>
-            </div>
-            <div class="metric">
-              <small>Total por vendedora</small>
-              <strong>—</strong>
-            </div>
-            <div class="metric">
-              <small>Sin asignar</small>
-              <strong>—</strong>
-            </div>
-          </div>
-          <div class="actions">
-            <a class="btn btn-primary" href="/ventas/index.html">Abrir</a>
-          </div>
-        </article>
+<body>
 
-        <article class="card span-6">
-          <h2>Plan de lealtad</h2>
-          <p>
-            Acceso a la sección de recompensas y beneficios para clientas
-            frecuentes.
-          </p>
-          <div class="actions">
-            <a class="btn btn-primary" href="/app/lealtad/index.html">Abrir</a>
-          </div>
-        </article>
+<main class="container">
 
-        <article class="card span-6">
-          <h2>Meta vs venta</h2>
-          <p>
-            Seguimiento visual de avance de objetivos frente a ventas del
-            periodo.
-          </p>
-          <div class="actions">
-            <a class="btn btn-primary" href="/meta-vs-venta/index.html">Abrir</a>
-          </div>
-        </article>
-      </section>
-    </main>
-  </body>
+<header class="hero">
+<h1>Panel de Herramientas HarujaGdl</h1>
+<p>
+Accede rápidamente a los módulos principales del ecosistema HarujaGdl.
+Esta versión se mantiene estática para asegurar estabilidad en Vercel
+durante la reconstrucción del sistema.
+</p>
+</header>
+
+<section class="dashboard-grid">
+
+<!-- Registro prendas -->
+
+<article class="card span4">
+<h2>Registro de nuevas prendas</h2>
+<p>
+Alta rápida para capturar nuevas piezas y dejar lista la información base.
+</p>
+
+<div class="actions">
+<a class="btn" href="/ticket/index.html">Abrir</a>
+</div>
+</article>
+
+
+<!-- Base de datos -->
+
+<article class="card span4">
+<h2>Base de datos códigos HarujaGdl</h2>
+<p>
+Consulta y organización de históricos y referencias para control interno.
+</p>
+
+<div class="actions">
+<a class="btn" href="/apartados-historial/index.html">Abrir</a>
+</div>
+</article>
+
+
+<!-- Apartados -->
+
+<article class="card span4">
+<h2>Registrar apartado</h2>
+<p>
+Gestión de apartados activos y seguimiento simple de movimientos.
+</p>
+
+<div class="actions">
+<a class="btn" href="/apartados/index.html">Abrir</a>
+</div>
+</article>
+
+
+<!-- Ventas -->
+
+<article class="card span6">
+<h2>Ventas & Comisiones</h2>
+
+<p>
+Vista general temporal con métricas placeholder mientras se conecta
+con Sheets.
+</p>
+
+<div class="metrics">
+
+<div class="metric">
+<small>Total del mes</small>
+<strong>—</strong>
+</div>
+
+<div class="metric">
+<small>Total por vendedora</small>
+<strong>—</strong>
+</div>
+
+<div class="metric">
+<small>Sin asignar</small>
+<strong>—</strong>
+</div>
+
+</div>
+
+<div class="actions">
+<a class="btn" href="/ventas/index.html">Abrir</a>
+</div>
+</article>
+
+
+<!-- Lealtad -->
+
+<article class="card span6">
+<h2>Plan de lealtad</h2>
+
+<p>
+Sistema de recompensas para clientas frecuentes.
+</p>
+
+<div class="actions">
+<a class="btn" href="/app/lealtad/index.html">Abrir</a>
+</div>
+</article>
+
+
+<!-- Meta vs venta -->
+
+<article class="card span6">
+<h2>Meta vs venta</h2>
+
+<p>
+Seguimiento del avance frente a los objetivos del periodo.
+</p>
+
+<div class="actions">
+<a class="btn" href="/ventas/index.html">Abrir</a>
+</div>
+</article>
+
+</section>
+
+</main>
+
+</body>
 </html>
