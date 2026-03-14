@@ -1,0 +1,915 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plan de Lealtad Haruja</title>
+  <link rel="stylesheet" href="/lealtad/lealtad.css" />
+</head>
+<body>
+  <div class="container page page-header-wrapper">
+    <a href="/#/panel" class="panel-back-btn">← Volver al panel</a>
+    <div class="topbar" style="align-items:center;">
+      <a class="brandlink" href="/#/panel" aria-label="Volver al panel" style="display:flex;align-items:center;text-decoration:none;">
+        <img src="/public/assets/haruja-logo.png" alt="HarujaGdl" style="height:36px;width:auto;display:block;">
+      </a>
+    </div>
+
+    <header class="header">
+      <h1>Plan de Lealtad Haruja</h1>
+    </header>
+
+    <div class="segmented" role="tablist" aria-label="Vistas de lealtad">
+      <button data-view="panel" class="seg active" type="button">Panel</button>
+      <button data-view="db" class="seg" type="button">Clientes registrados</button>
+      <button data-view="promotions" class="seg" type="button">Promociones</button>
+      <button data-view="levels" class="seg" type="button">Niveles</button>
+    </div>
+
+    <main id="view-panel" class="view active">
+      <div class="two-col">
+        <section class="card" id="card-register">
+          <h2>Registrar cliente</h2>
+          <div class="grid2">
+            <div>
+              <div class="label">Nombre</div>
+              <input id="name" placeholder="Nombre" />
+            </div>
+            <div>
+              <div class="label">Teléfono</div>
+              <input id="phone" placeholder="Teléfono" />
+            </div>
+            <div>
+              <div class="label">Instagram</div>
+              <input id="instagram" placeholder="Instagram" />
+            </div>
+            <div>
+              <div class="label">Email</div>
+              <input id="email" placeholder="Email" />
+            </div>
+          </div>
+          <div class="row top-12">
+            <button class="btn full" id="registerBtn" type="button">Registrar</button>
+          </div>
+        </section>
+
+        <section class="card" id="card-search">
+          <h2>Buscar cliente</h2>
+          <div class="row search-row">
+            <input id="searchInput" placeholder="HCL-0001, teléfono o nombre" />
+            <button class="btn" id="searchBtn" type="button">Buscar</button>
+          </div>
+          <div id="results" class="results top-12"></div>
+        </section>
+      </div>
+
+      <section class="card" id="card-selected" style="display:none">
+        <h2>Cliente seleccionado</h2>
+        <div id="clientSummary"></div>
+        <div class="edit-client-bar top-12">
+          <button class="btn btn-secondary" id="btnEditClient" type="button">Editar datos</button>
+        </div>
+        <div id="editClientForm" class="edit-client-form" style="display:none">
+          <div class="grid2">
+            <div>
+              <div class="label">Nombre</div>
+              <input id="editName" type="text" />
+            </div>
+            <div>
+              <div class="label">Teléfono</div>
+              <input id="editPhone" type="tel" />
+            </div>
+            <div>
+              <div class="label">Instagram</div>
+              <input id="editIg" type="text" />
+            </div>
+            <div>
+              <div class="label">Email</div>
+              <input id="editEmail" type="email" />
+            </div>
+          </div>
+          <div class="edit-actions">
+            <button class="btn" id="btnSaveClient" type="button">Guardar cambios</button>
+            <button class="btn btn-secondary" id="btnCancelEditClient" type="button">Cancelar</button>
+          </div>
+          <div id="editClientMsg" class="muted top-8"></div>
+        </div>
+        <div class="grid2 top-8">
+          <input id="purchaseAmount" type="number" min="1" placeholder="Monto de compra" />
+          <input id="purchaseNotes" placeholder="Notas compra" />
+        </div>
+        <div class="row top-8">
+          <button class="btn full" id="addPurchaseBtn" type="button">Agregar compra</button>
+        </div>
+        <div class="grid2 top-8">
+          <select id="rewardPts">
+            <option value="150">150</option>
+            <option value="300">300</option>
+            <option value="500">500</option>
+            <option value="800">800</option>
+          </select>
+          <input id="redeemNotes" placeholder="Notas canje" />
+        </div>
+        <div class="row top-8">
+          <button class="btn full" id="redeemBtn" type="button">Canjear</button>
+        </div>
+      </section>
+    </main>
+
+    <main id="view-db" class="view">
+      <section class="card">
+        <h2>Clientes registrados</h2>
+        <div class="row">
+          <input id="dbSearchInput" placeholder="Buscar por nombre, teléfono o ID" />
+          <button class="btn" id="dbSearchBtn" type="button">Buscar</button>
+          <button class="btn btn-secondary" id="dbReloadBtn" type="button">Recargar</button>
+        </div>
+        <div id="dbResults" class="results top-12"></div>
+      </section>
+    </main>
+
+    <main id="view-promotions" class="view">
+      <section class="card">
+        <h2>Promociones</h2>
+        <p class="muted">Crea y administra promociones de temporada para niveles del plan de lealtad.</p>
+        <div id="promoFormMsg" class="muted top-8"></div>
+        <div class="grid2 top-8">
+          <div>
+            <div class="label">Título</div>
+            <input id="promoTitle" placeholder="Promo Primavera Oro y VIP" />
+          </div>
+          <div>
+            <div class="label">Etiqueta / temporada</div>
+            <input id="promoTag" placeholder="Primavera" />
+          </div>
+        </div>
+        <div class="top-8">
+          <div class="label">Descripción</div>
+          <textarea id="promoDescription" rows="3" placeholder="Descripción de la promoción"></textarea>
+        </div>
+        <div class="grid2 top-8">
+          <div>
+            <div class="label">Fecha inicio</div>
+            <input id="promoStartAt" type="datetime-local" />
+          </div>
+          <div>
+            <div class="label">Fecha fin</div>
+            <input id="promoEndAt" type="datetime-local" />
+          </div>
+        </div>
+        <div class="top-8">
+          <div class="label">Niveles aplicables</div>
+          <div class="levels-group" id="promoLevelsContainer">
+            <p class="muted">Cargando niveles...</p>
+          </div>
+        </div>
+        <div class="grid2 top-8">
+          <label class="switch-like">
+            <input id="promoActive" type="checkbox" checked />
+            <span>Activa</span>
+          </label>
+          <div>
+            <div class="label">Prioridad</div>
+            <input id="promoPriority" type="number" min="0" step="1" value="1" />
+          </div>
+        </div>
+        <div class="row top-12">
+          <button class="btn" id="promoSaveBtn" type="button">Guardar promoción</button>
+          <button class="btn btn-secondary" id="promoCancelBtn" type="button" style="display:none;">Cancelar edición</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Promociones registradas</h2>
+        <div id="promotionsList" class="results top-8"></div>
+      </section>
+    </main>
+
+    <main id="view-levels" class="view">
+      <section class="card">
+        <h2>Niveles</h2>
+        <p class="muted">Configura rangos, prioridad y beneficios de cada nivel.</p>
+        <div id="levelFormMsg" class="muted top-8"></div>
+        <div class="grid2 top-8">
+          <div>
+            <div class="label">Nombre</div>
+            <input id="levelName" placeholder="Bronce" />
+          </div>
+          <div>
+            <div class="label">Color</div>
+            <input id="levelColor" type="color" value="#A67C52" />
+          </div>
+          <div>
+            <div class="label">Puntos mínimos</div>
+            <input id="levelMinPoints" type="number" min="0" step="1" placeholder="0" />
+          </div>
+          <div>
+            <div class="label">Puntos máximos</div>
+            <input id="levelMaxPoints" type="number" min="0" step="1" placeholder="499" />
+          </div>
+          <div>
+            <div class="label">Prioridad</div>
+            <input id="levelPriority" type="number" min="0" step="1" value="1" />
+          </div>
+          <label class="switch-like level-active-toggle">
+            <input id="levelActive" type="checkbox" checked />
+            <span>Activo</span>
+          </label>
+        </div>
+        <div class="top-8">
+          <div class="label">Beneficios (uno por línea)</div>
+          <textarea id="levelBenefits" rows="4" placeholder="Acceso al programa&#10;Promociones exclusivas"></textarea>
+        </div>
+        <div class="row top-12">
+          <button class="btn" id="levelSaveBtn" type="button">Guardar nivel</button>
+          <button class="btn btn-secondary" id="levelCancelBtn" type="button" style="display:none;">Cancelar edición</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Niveles registrados</h2>
+        <div id="levelsList" class="results top-8"></div>
+      </section>
+    </main>
+
+  </div>
+
+  <div id="toast"></div>
+
+  <script src="/lealtad/vendor/qrcode-generator.min.js"></script>
+  <script src="/shared/loyaltyService.js"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      serverTimestamp,
+      doc,
+      getDoc,
+      getDocs,
+      setDoc,
+      updateDoc,
+      deleteDoc,
+      query,
+      where,
+      orderBy,
+      limit
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB6vH_TI5Wh-hYHXE64coVobuI3vzn9D1Q",
+      authDomain: "haruja-loyalty.firebaseapp.com",
+      projectId: "haruja-loyalty",
+      storageBucket: "haruja-loyalty.firebasestorage.app",
+      messagingSenderId: "229949615835",
+      appId: "1:229949615835:web:dfcd3e81e52c916a2aa6fe",
+      measurementId: "G-LKVRFX04CL"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.loyaltyFirebase = {
+      app,
+      db,
+      collection,
+      addDoc,
+      serverTimestamp,
+      doc,
+      getDoc,
+      getDocs,
+      setDoc,
+      updateDoc,
+      deleteDoc,
+      query,
+      where,
+      orderBy,
+      limit
+    };
+
+    console.log("[loyalty] Firebase conectado:", firebaseConfig.projectId);
+  </script>
+
+  <script>
+    const PWA_PUBLIC_BASE_URL = window.location.origin;
+
+    const api = async (action, payload = {}, options = {}) => {
+      const method = options.method || 'GET';
+      const service = window.loyaltyService;
+      if (!service || typeof service[action] !== 'function') throw new Error('loyaltyService no disponible');
+      return service[action](payload, { method });
+    };
+
+    const views = {
+      panel: document.getElementById('view-panel'),
+      db: document.getElementById('view-db'),
+      promotions: document.getElementById('view-promotions'),
+      levels: document.getElementById('view-levels')
+    };
+    const segButtons = Array.from(document.querySelectorAll('.seg'));
+    let dbLoaded = false;
+    let selectedClient = null;
+    let saveClientInFlight = false;
+    let promotionsLoaded = false;
+    let promotionsInFlight = false;
+    let editingPromotionId = null;
+    let levelsLoaded = false;
+    let levelsInFlight = false;
+    let editingLevelId = null;
+    let activeLevelsCache = [];
+
+    const toast = (msg, ok = true) => {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.style.display = 'block';
+      el.style.background = ok ? '#2563EB' : '#DC2626';
+      setTimeout(() => {
+        el.style.display = 'none';
+      }, 2200);
+    };
+
+    const setView = async (viewName) => {
+      segButtons.forEach((btn) => btn.classList.toggle('active', btn.dataset.view === viewName));
+      Object.entries(views).forEach(([name, el]) => el.classList.toggle('active', name === viewName));
+      if (viewName === 'db' && !dbLoaded) {
+        await loadClientsRegistered();
+      }
+      if (viewName === 'promotions' && !promotionsLoaded) {
+        await loadPromotions();
+      }
+      if (viewName === 'levels' && !levelsLoaded) {
+        await loadLevels();
+      }
+    };
+
+    const buildPwaQrLink = (client) => {
+      const token = String(client?.token || '').trim();
+      if (!token) return '#';
+      return `${PWA_PUBLIC_BASE_URL}/tarjeta-lealtad?token=${encodeURIComponent(token)}`;
+    };
+
+    function renderQrInto(el, text) {
+      el.innerHTML = '';
+      const qr = qrcode(0, 'M');
+      qr.addData(text);
+      qr.make();
+      el.innerHTML = qr.createSvgTag({ scalable: true, margin: 2 });
+      const svg = el.querySelector('svg');
+      if (svg) {
+        svg.style.width = '220px';
+        svg.style.height = '220px';
+        svg.style.borderRadius = '14px';
+        svg.style.border = '1px solid #E5E7EB';
+        svg.style.background = '#fff';
+      }
+    }
+
+    const renderClient = (client) => {
+      selectedClient = client;
+      const summary = document.getElementById('clientSummary');
+      const card = document.getElementById('card-selected');
+      card.style.display = 'block';
+
+      const rawQr = String(client?.qrLink || '').trim();
+      const qrBaseUrl = window.location.origin;
+      const qrLink = (!rawQr || rawQr.includes('.vercel.app') || rawQr.includes('run.app'))
+        ? `${qrBaseUrl}/tarjeta-lealtad?token=${encodeURIComponent(client?.token || '')}`
+        : rawQr;
+
+      summary.innerHTML = `
+        <div><b>${client.name}</b> <span class="pill">${client.clientId}</span></div>
+        <div class="muted">Puntos: <b>${client.points}</b> · Nivel: <b>${client.level}</b> · Compras: <b>$${Number(client.totalPurchases || 0).toFixed(2)}</b></div>
+        <div class="notice mono">Token: <code>${client.token || '-'}</code></div>
+        <div class="notice mono">QR: <a href="${qrLink}" target="_blank" rel="noopener">${qrLink}</a></div>
+        <div class="qr-section top-8">
+          <div class="qr-wrap"><div id="qrPreview" class="qr" aria-label="QR"></div></div>
+          <div class="qr-actions">
+            <button class="btn" type="button" id="copyQrBtn">Copiar QR Link</button>
+          </div>
+        </div>
+      `;
+
+      renderQrInto(document.getElementById('qrPreview'), qrLink);
+      fillEditForm(client);
+
+      const copyBtn = document.getElementById('copyQrBtn');
+      copyBtn.onclick = async () => {
+        try {
+          await navigator.clipboard.writeText(qrLink);
+          toast('QR link copiado');
+        } catch (_err) {
+          toast('No se pudo copiar el link', false);
+        }
+      };
+    };
+
+    const fillEditForm = (client) => {
+      document.getElementById('editName').value = client?.name || '';
+      document.getElementById('editPhone').value = client?.phone || '';
+      document.getElementById('editIg').value = client?.instagram || '';
+      document.getElementById('editEmail').value = client?.email || '';
+      document.getElementById('editClientMsg').textContent = '';
+    };
+
+    const toggleEditForm = (show) => {
+      document.getElementById('editClientForm').style.display = show ? 'block' : 'none';
+      if (!show && selectedClient) fillEditForm(selectedClient);
+    };
+
+    const renderSearchItems = (items, targetId, openClientLabel = 'Seleccionar') => {
+      const box = document.getElementById(targetId);
+      box.innerHTML = items.length ? '' : '<p class="muted">Sin resultados</p>';
+
+      items.forEach((item) => {
+        const row = document.createElement('div');
+        row.className = 'result-item';
+        row.innerHTML = `
+          <div>
+            <div><b>${item.clientId}</b> · ${item.name}</div>
+            <div class="muted">Tel: ${item.phone || '-'} · Puntos: ${item.points} · Nivel: ${item.level}</div>
+          </div>
+          <button class="btn btn-small" type="button">${openClientLabel}</button>
+        `;
+        row.querySelector('button').onclick = () => {
+          renderClient(item);
+          setView('panel');
+        };
+        box.appendChild(row);
+      });
+    };
+
+    const loadClientsRegistered = async () => {
+      try {
+        const { items } = await window.loyaltyService.listClients(80);
+        dbLoaded = true;
+        renderSearchItems(items, 'dbResults', 'Abrir');
+      } catch (e) {
+        toast(e.message, false);
+      }
+    };
+
+    const runClientSearch = async (inputId, targetId) => {
+      try {
+        const q = document.getElementById(inputId).value.trim();
+        const { items } = await window.loyaltyService.searchClients(q);
+        renderSearchItems(items, targetId);
+      } catch (e) {
+        toast(e.message, false);
+      }
+    };
+
+    document.getElementById('registerBtn').onclick = async () => {
+      try {
+        const payload = {
+          name: document.getElementById('name').value,
+          phone: document.getElementById('phone').value,
+          instagram: document.getElementById('instagram').value,
+          email: document.getElementById('email').value
+        };
+        const { client } = await window.loyaltyService.registerClient(payload);
+        toast('Cliente registrado');
+        renderClient(client);
+      } catch (e) {
+        toast(e.message, false);
+      }
+    };
+
+    document.getElementById('searchBtn').onclick = () => runClientSearch('searchInput', 'results');
+    document.getElementById('dbSearchBtn').onclick = () => runClientSearch('dbSearchInput', 'dbResults');
+    document.getElementById('dbReloadBtn').onclick = () => loadClientsRegistered();
+
+    document.getElementById('btnEditClient').onclick = () => {
+      if (!selectedClient) return toast('Selecciona cliente', false);
+      const form = document.getElementById('editClientForm');
+      const shouldShow = form.style.display === 'none';
+      if (shouldShow) fillEditForm(selectedClient);
+      toggleEditForm(shouldShow);
+    };
+
+    document.getElementById('btnCancelEditClient').onclick = () => toggleEditForm(false);
+
+    document.getElementById('btnSaveClient').onclick = async () => {
+      if (!selectedClient) return toast('Selecciona cliente', false);
+      if (saveClientInFlight) return;
+
+      const editMsg = document.getElementById('editClientMsg');
+      const name = document.getElementById('editName').value.trim();
+      const phone = document.getElementById('editPhone').value.trim();
+      const instagram = document.getElementById('editIg').value.trim();
+      const email = document.getElementById('editEmail').value.trim();
+
+      if (!name) {
+        editMsg.textContent = 'El nombre es obligatorio.';
+        return;
+      }
+
+      if (email && !/^\S+@\S+\.\S+$/.test(email)) {
+        editMsg.textContent = 'Email inválido.';
+        return;
+      }
+
+      const saveBtn = document.getElementById('btnSaveClient');
+      saveClientInFlight = true;
+      saveBtn.disabled = true;
+      editMsg.textContent = 'Guardando...';
+
+      try {
+        const { client } = await window.loyaltyService.updateClientPublic({
+          clientId: selectedClient.clientId || selectedClient.id,
+          name,
+          phone,
+          instagram,
+          email
+        });
+
+        selectedClient = { ...selectedClient, ...client };
+        renderClient(selectedClient);
+        toggleEditForm(false);
+
+        if (dbLoaded) await loadClientsRegistered();
+
+        editMsg.textContent = 'Guardado ✅';
+        toast('Cliente actualizado');
+      } catch (e) {
+        editMsg.textContent = e.message;
+        toast(e.message, false);
+      } finally {
+        saveClientInFlight = false;
+        saveBtn.disabled = false;
+      }
+    };
+
+    document.getElementById('addPurchaseBtn').onclick = async () => {
+      if (!selectedClient) return toast('Selecciona cliente', false);
+      try {
+        const payload = {
+          clientId: selectedClient.clientId,
+          amount: Number(document.getElementById('purchaseAmount').value),
+          notes: document.getElementById('purchaseNotes').value
+        };
+        const { client } = await window.loyaltyService.addPurchase(payload);
+        toast('Compra registrada');
+        renderClient({ ...selectedClient, ...client });
+      } catch (e) {
+        toast(e.message, false);
+      }
+    };
+
+    document.getElementById('redeemBtn').onclick = async () => {
+      if (!selectedClient) return toast('Selecciona cliente', false);
+      try {
+        const payload = {
+          clientId: selectedClient.clientId,
+          rewardPts: Number(document.getElementById('rewardPts').value),
+          notes: document.getElementById('redeemNotes').value
+        };
+        const { client } = await window.loyaltyService.redeemReward(payload);
+        toast('Canje aplicado');
+        renderClient({ ...selectedClient, ...client });
+      } catch (e) {
+        toast(e.message, false);
+      }
+    };
+
+    const toDateTimeLocal = (isoValue) => {
+      if (!isoValue) return '';
+      const d = new Date(isoValue);
+      if (Number.isNaN(d.getTime())) return '';
+      const pad = (n) => String(n).padStart(2, '0');
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    };
+
+    const getPromotionFormPayload = () => ({
+      title: document.getElementById('promoTitle').value.trim(),
+      description: document.getElementById('promoDescription').value.trim(),
+      tag: document.getElementById('promoTag').value.trim(),
+      startAt: document.getElementById('promoStartAt').value || null,
+      endAt: document.getElementById('promoEndAt').value || null,
+      levels: Array.from(document.querySelectorAll('input[name="promoLevels"]:checked')).map((el) => el.value),
+      active: document.getElementById('promoActive').checked,
+      priority: Number(document.getElementById('promoPriority').value)
+    });
+
+    const validatePromotionPayload = (payload) => {
+      if (!payload.title) return 'El título es obligatorio.';
+      if (!payload.description) return 'La descripción es obligatoria.';
+      if (!payload.levels.length) return 'Selecciona al menos un nivel.';
+      if (Number.isNaN(payload.priority)) return 'La prioridad debe ser numérica.';
+      if (payload.startAt && Number.isNaN(new Date(payload.startAt).getTime())) return 'Fecha de inicio inválida.';
+      if (payload.endAt && Number.isNaN(new Date(payload.endAt).getTime())) return 'Fecha de fin inválida.';
+      if (payload.startAt && payload.endAt && new Date(payload.endAt) < new Date(payload.startAt)) {
+        return 'La fecha fin no puede ser menor a la fecha inicio.';
+      }
+      return '';
+    };
+
+    const clearPromotionForm = () => {
+      editingPromotionId = null;
+      document.getElementById('promoTitle').value = '';
+      document.getElementById('promoDescription').value = '';
+      document.getElementById('promoTag').value = '';
+      document.getElementById('promoStartAt').value = '';
+      document.getElementById('promoEndAt').value = '';
+      document.getElementById('promoActive').checked = true;
+      document.getElementById('promoPriority').value = '1';
+      document.querySelectorAll('input[name="promoLevels"]').forEach((el) => { el.checked = false; });
+      document.getElementById('promoSaveBtn').textContent = 'Guardar promoción';
+      document.getElementById('promoCancelBtn').style.display = 'none';
+      document.getElementById('promoFormMsg').textContent = '';
+    };
+
+    const fillPromotionForm = (promotion) => {
+      editingPromotionId = promotion.id;
+      document.getElementById('promoTitle').value = promotion.title || '';
+      document.getElementById('promoDescription').value = promotion.description || '';
+      document.getElementById('promoTag').value = promotion.tag || '';
+      document.getElementById('promoStartAt').value = toDateTimeLocal(promotion.startAt);
+      document.getElementById('promoEndAt').value = toDateTimeLocal(promotion.endAt);
+      document.getElementById('promoActive').checked = promotion.active === true;
+      document.getElementById('promoPriority').value = String(Number(promotion.priority || 0));
+      document.querySelectorAll('input[name="promoLevels"]').forEach((el) => {
+        el.checked = Array.isArray(promotion.levels) && promotion.levels.includes(el.value);
+      });
+      document.getElementById('promoSaveBtn').textContent = 'Guardar cambios';
+      document.getElementById('promoCancelBtn').style.display = 'inline-flex';
+      document.getElementById('promoFormMsg').textContent = 'Editando promoción.';
+    };
+
+
+    const parseBenefitsText = (value) => String(value || '')
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean);
+
+    const getLevelFormPayload = () => ({
+      name: document.getElementById('levelName').value.trim(),
+      minPoints: Number(document.getElementById('levelMinPoints').value),
+      maxPoints: Number(document.getElementById('levelMaxPoints').value),
+      color: document.getElementById('levelColor').value,
+      active: document.getElementById('levelActive').checked,
+      priority: Number(document.getElementById('levelPriority').value),
+      benefits: parseBenefitsText(document.getElementById('levelBenefits').value)
+    });
+
+    const validateLevelPayload = (payload) => {
+      if (!payload.name) return 'El nombre es obligatorio.';
+      if (Number.isNaN(payload.minPoints)) return 'Puntos mínimos inválidos.';
+      if (Number.isNaN(payload.maxPoints)) return 'Puntos máximos inválidos.';
+      if (payload.maxPoints < payload.minPoints) return 'El máximo no puede ser menor al mínimo.';
+      if (Number.isNaN(payload.priority)) return 'La prioridad debe ser numérica.';
+      return '';
+    };
+
+    const clearLevelForm = () => {
+      editingLevelId = null;
+      document.getElementById('levelName').value = '';
+      document.getElementById('levelColor').value = '#A67C52';
+      document.getElementById('levelMinPoints').value = '';
+      document.getElementById('levelMaxPoints').value = '';
+      document.getElementById('levelPriority').value = '1';
+      document.getElementById('levelActive').checked = true;
+      document.getElementById('levelBenefits').value = '';
+      document.getElementById('levelSaveBtn').textContent = 'Guardar nivel';
+      document.getElementById('levelCancelBtn').style.display = 'none';
+      document.getElementById('levelFormMsg').textContent = '';
+    };
+
+    const fillLevelForm = (level) => {
+      editingLevelId = level.id;
+      document.getElementById('levelName').value = level.name || '';
+      document.getElementById('levelColor').value = level.color || '#A67C52';
+      document.getElementById('levelMinPoints').value = String(Number(level.minPoints || 0));
+      document.getElementById('levelMaxPoints').value = String(Number(level.maxPoints || 0));
+      document.getElementById('levelPriority').value = String(Number(level.priority || 0));
+      document.getElementById('levelActive').checked = level.active === true;
+      document.getElementById('levelBenefits').value = Array.isArray(level.benefits) ? level.benefits.join('\n') : '';
+      document.getElementById('levelSaveBtn').textContent = 'Guardar cambios';
+      document.getElementById('levelCancelBtn').style.display = 'inline-flex';
+      document.getElementById('levelFormMsg').textContent = 'Editando nivel.';
+      setView('levels');
+    };
+
+    const renderPromoLevelOptions = (levels = []) => {
+      const container = document.getElementById('promoLevelsContainer');
+      if (!levels.length) {
+        container.innerHTML = '<p class="muted">No hay niveles activos. Crea uno en la pestaña Niveles.</p>';
+        return;
+      }
+      container.innerHTML = '';
+      levels.forEach((level) => {
+        const label = document.createElement('label');
+        label.innerHTML = `<input type="checkbox" name="promoLevels" value="${level.id}" /> ${level.name}`;
+        container.appendChild(label);
+      });
+    };
+
+    const renderLevels = (items) => {
+      const box = document.getElementById('levelsList');
+      if (!items.length) {
+        box.innerHTML = '<p class="muted">Aún no hay niveles registrados.</p>';
+        return;
+      }
+
+      box.innerHTML = '';
+      items.forEach((item) => {
+        const row = document.createElement('div');
+        row.className = 'level-item';
+        const benefits = Array.isArray(item.benefits) && item.benefits.length
+          ? item.benefits.map((benefit) => `<li>${benefit}</li>`).join('')
+          : '<li>Sin beneficios registrados</li>';
+        row.innerHTML = `
+          <div class="level-head">
+            <div>
+              <b>${item.name || '(sin nombre)'}</b>
+              <span class="pill">${item.active ? 'Activo' : 'Inactivo'}</span>
+            </div>
+            <div class="muted">Prioridad ${Number(item.priority || 0)}</div>
+          </div>
+          <div class="muted">Rango: ${Number(item.minPoints || 0)} - ${Number(item.maxPoints || 0)} pts</div>
+          <div class="muted">Color: <span class="level-color-dot" style="background:${item.color || '#A67C52'}"></span> ${item.color || '#A67C52'}</div>
+          <ul class="benefits-list">${benefits}</ul>
+          <div class="row top-8">
+            <button class="btn btn-small" data-action="edit">Editar</button>
+            <button class="btn btn-secondary btn-small" data-action="toggle">${item.active ? 'Desactivar' : 'Activar'}</button>
+            <button class="btn btn-small btn-danger" data-action="delete">Eliminar</button>
+          </div>
+        `;
+
+        row.querySelector('[data-action="edit"]').onclick = () => fillLevelForm(item);
+        row.querySelector('[data-action="toggle"]').onclick = async () => {
+          try {
+            await window.loyaltyService.toggleLevel(item.id, !item.active);
+            toast('Estado del nivel actualizado');
+            await loadLevels();
+          } catch (e) {
+            toast(e.message, false);
+          }
+        };
+        row.querySelector('[data-action="delete"]').onclick = async () => {
+          if (!confirm('¿Eliminar este nivel?')) return;
+          try {
+            await window.loyaltyService.deleteLevel(item.id);
+            if (editingLevelId === item.id) clearLevelForm();
+            toast('Nivel eliminado');
+            await loadLevels();
+          } catch (e) {
+            toast(e.message, false);
+          }
+        };
+
+        box.appendChild(row);
+      });
+    };
+
+    const loadLevels = async () => {
+      try {
+        const { items } = await window.loyaltyService.listLevels();
+        const sortedItems = [...items].sort((a, b) => Number(a.priority || 0) - Number(b.priority || 0));
+        levelsLoaded = true;
+        activeLevelsCache = sortedItems.filter((item) => item.active === true);
+        renderLevels(sortedItems);
+        renderPromoLevelOptions(activeLevelsCache);
+      } catch (e) {
+        toast(e.message, false);
+      }
+    };
+
+    const renderPromotions = (items) => {
+      const box = document.getElementById('promotionsList');
+      if (!items.length) {
+        box.innerHTML = '<p class="muted">Aún no hay promociones registradas.</p>';
+        return;
+      }
+      box.innerHTML = '';
+      items.forEach((item) => {
+        const row = document.createElement('div');
+        row.className = 'promotion-item';
+        const startLabel = item.startAt ? new Date(item.startAt).toLocaleString('es-MX') : 'Sin inicio';
+        const endLabel = item.endAt ? new Date(item.endAt).toLocaleString('es-MX') : 'Sin fin';
+        const levels = Array.isArray(item.levels) ? item.levels.join(', ') : '-';
+        row.innerHTML = `
+          <div class="promotion-head">
+            <div><b>${item.title || '(sin título)'}</b> <span class="pill">${item.tag || 'Sin tag'}</span></div>
+            <div class="muted">${item.active ? 'Activa' : 'Inactiva'} · Prioridad ${Number(item.priority || 0)}</div>
+          </div>
+          <div class="muted">${item.description || '-'}</div>
+          <div class="muted">Vigencia: ${startLabel} → ${endLabel}</div>
+          <div class="muted">Niveles: ${levels}</div>
+          <div class="row top-8">
+            <button class="btn btn-small" data-action="edit">Editar</button>
+            <button class="btn btn-secondary btn-small" data-action="toggle">${item.active ? 'Desactivar' : 'Activar'}</button>
+            <button class="btn btn-small btn-danger" data-action="delete">Eliminar</button>
+          </div>
+        `;
+
+        row.querySelector('[data-action="edit"]').onclick = () => fillPromotionForm(item);
+        row.querySelector('[data-action="toggle"]').onclick = async () => {
+          try {
+            await window.loyaltyService.togglePromotion(item.id, !item.active);
+            toast('Estado actualizado');
+            await loadPromotions();
+          } catch (e) {
+            toast(e.message, false);
+          }
+        };
+        row.querySelector('[data-action="delete"]').onclick = async () => {
+          if (!confirm('¿Eliminar esta promoción?')) return;
+          try {
+            await window.loyaltyService.deletePromotion(item.id);
+            if (editingPromotionId === item.id) clearPromotionForm();
+            toast('Promoción eliminada');
+            await loadPromotions();
+          } catch (e) {
+            toast(e.message, false);
+          }
+        };
+
+        box.appendChild(row);
+      });
+    };
+
+    const loadPromotions = async () => {
+      try {
+        if (!levelsLoaded) await loadLevels();
+        const { items } = await window.loyaltyService.listPromotions();
+        promotionsLoaded = true;
+        renderPromotions(items);
+      } catch (e) {
+        toast(e.message, false);
+      }
+    };
+
+    document.getElementById('promoSaveBtn').onclick = async () => {
+      if (promotionsInFlight) return;
+      const payload = getPromotionFormPayload();
+      const error = validatePromotionPayload(payload);
+      const msg = document.getElementById('promoFormMsg');
+      if (error) {
+        msg.textContent = error;
+        return;
+      }
+
+      promotionsInFlight = true;
+      msg.textContent = 'Guardando...';
+
+      try {
+        if (editingPromotionId) {
+          await window.loyaltyService.updatePromotion({ id: editingPromotionId, ...payload });
+          toast('Promoción actualizada');
+        } else {
+          await window.loyaltyService.createPromotion(payload);
+          toast('Promoción creada');
+        }
+        clearPromotionForm();
+        await loadPromotions();
+      } catch (e) {
+        msg.textContent = e.message;
+        toast(e.message, false);
+      } finally {
+        promotionsInFlight = false;
+      }
+    };
+
+    document.getElementById('promoCancelBtn').onclick = () => clearPromotionForm();
+
+    document.getElementById('levelSaveBtn').onclick = async () => {
+      if (levelsInFlight) return;
+      const payload = getLevelFormPayload();
+      const error = validateLevelPayload(payload);
+      const msg = document.getElementById('levelFormMsg');
+      if (error) {
+        msg.textContent = error;
+        return;
+      }
+
+      levelsInFlight = true;
+      msg.textContent = 'Guardando...';
+
+      try {
+        if (editingLevelId) {
+          await window.loyaltyService.updateLevel({ id: editingLevelId, ...payload });
+          toast('Nivel actualizado');
+        } else {
+          await window.loyaltyService.createLevel(payload);
+          toast('Nivel creado');
+        }
+        clearLevelForm();
+        await loadLevels();
+      } catch (e) {
+        msg.textContent = e.message;
+        toast(e.message, false);
+      } finally {
+        levelsInFlight = false;
+      }
+    };
+
+    document.getElementById('levelCancelBtn').onclick = () => clearLevelForm();
+
+    segButtons.forEach((btn) => {
+      btn.addEventListener('click', () => setView(btn.dataset.view));
+    });
+  </script>
+</body>
+</html>
