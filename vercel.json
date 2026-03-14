@@ -1,6 +1,11 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/", "destination": "/index.html" }
+    { "source": "/", "destination": "/index.html" },
+
+    { "source": "/ventas", "destination": "/ventas/index.html" },
+    { "source": "/apartados", "destination": "/apartados/index.html" },
+    { "source": "/apartados-historial", "destination": "/apartados-historial/index.html" },
+    { "source": "/ticket", "destination": "/ticket/index.html" }
   ]
 }
