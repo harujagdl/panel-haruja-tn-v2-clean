@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "routes": [
+    { "src": "^/$", "dest": "/index.html" },
+
+    { "src": "^/ventas$", "dest": "/ventas/index.html" },
+    { "src": "^/apartados$", "dest": "/apartados/index.html" },
+    { "src": "^/apartados-historial$", "dest": "/apartados-historial/index.html" },
+    { "src": "^/ticket$", "dest": "/ticket/index.html" },
+    { "src": "^/app/lealtad$", "dest": "/app/lealtad/index.html" },
+
+    { "src": "^/(.*)", "dest": "/$1" }
+  ]
+}
